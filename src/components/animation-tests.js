@@ -5,11 +5,14 @@ import gsap from "gsap";
 
 import { animateSkew } from "@/animations/animateSkew";
 import { generateGrid } from "@/utils/generateGrid";
+import { randomCellColour } from "@/utils/randomCellColour";
 
 export function Animation() {
   const [iterate, setIterate] = useState(new Date());
 
   const mainGrid = useRef(null);
+  const tl = useRef();
+  const cells = useRef();
 
   useEffect(() => {
     const rowSplit = gsap.utils.random(20, 80, 10);
@@ -25,14 +28,17 @@ export function Animation() {
     // Initial Grid Setup
     generateGrid(mainGrid, options);
 
-    // Find all cells
-    const cells = document.querySelectorAll(".cell");
+    // Get all cells
+    cells.current = document.querySelectorAll(".cell");
+    randomCellColour(cells.current);
 
     // Animate the grid via a skew
-    animateSkew(cells);
+    animateSkew(cells.current);
   }, [iterate]);
 
   useEffect(() => {
+    tl.current = gsap.timeline();
+
     // Regenerate Grid
     const reloadButton = document.querySelector("#reload");
     reloadButton.addEventListener("click", () => {
