@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-neutral-900 overflow-clip;
+  @apply bg-black overflow-clip;
 }
 
 @layer components {
@@ -28,6 +28,7 @@ body {
   }
 
   .cell {
-    @apply flex flex-1 bg-cyan-400;
+    @apply flex flex-1;
+    background-color: #20d269;
   }
 }
