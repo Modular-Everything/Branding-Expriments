@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { animateSkew } from "@/animations/animateSkew";
 import { generateGrid } from "@/utils/generateGrid";
 import { randomCellColour } from "@/utils/randomCellColour";
+import { mapCellsTo2DArray } from "@/helpers/mapCellsTo2DArray";
 
 type Cell = HTMLElement;
 
@@ -35,10 +36,18 @@ export function Animation() {
 
     // Get all cells
     cells.current = document.querySelectorAll(".cell");
-    randomCellColour(Array.from(cells.current) as Cell[]);
+    const cellsGrid = mapCellsTo2DArray(
+      Array.from(cells.current as NodeListOf<HTMLElement>),
+      options.numColsRow1,
+      options.numColsRow2,
+      options.subGridRow1,
+      options.subGridRow2
+    );
+
+    randomCellColour(cellsGrid);
 
     // Animate the grid via a skew
-    animateSkew(Array.from(cells.current) as Cell[]);
+    // animateSkew(Array.from(cells.current) as Cell[]);
   }, [iterate]);
 
   useEffect(() => {

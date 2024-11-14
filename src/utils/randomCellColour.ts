@@ -1,27 +1,45 @@
 import gsap from "gsap";
 
-interface Cell {
-  style: {
-    backgroundColor: string;
+type Cell = HTMLElement;
+
+export function randomCellColour(grid: Cell[][][]): void {
+  const colours = {
+    light: "#20D269",
+    dark: "transparent",
   };
-}
 
-export function randomCellColour(cells: Cell[]): void {
-  const colours = { dominant: "transparent", accent: "#20D269" };
+  grid.forEach((row, rowIndex) => {
+    row.forEach((subGrid, subGridIndex) => {
+      let lastColour = "";
 
-  let lastColour = "";
+      subGrid.forEach((cell, cellIndex) => {
+        let chosenColour;
 
-  cells.forEach((cell) => {
-    let chosenColour;
+        if (subGridIndex === 0) {
+          if (cellIndex === 0) {
+            chosenColour = Math.random() > 0.5 ? colours.light : colours.dark;
+          } else {
+            if (lastColour === colours.dark) {
+              chosenColour = Math.random() > 0.5 ? colours.dark : colours.light;
+            } else {
+              chosenColour = colours.dark;
+            }
+          }
+        } else {
+          const topNeighbour =
+            grid[rowIndex][subGridIndex - 1][cellIndex]?.style.backgroundColor;
 
-    if (lastColour === colours.accent || Math.random() > 0.6) {
-      chosenColour = colours.dominant;
-    } else {
-      chosenColour = colours.accent;
-    }
+          if (topNeighbour === colours.dark && lastColour === colours.dark) {
+            chosenColour = Math.random() > 0.5 ? colours.dark : colours.light;
+          } else {
+            chosenColour = colours.dark;
+          }
+        }
 
-    gsap.set(cell, { backgroundColor: chosenColour });
+        gsap.set(cell, { backgroundColor: chosenColour });
 
-    lastColour = chosenColour;
+        lastColour = chosenColour;
+      });
+    });
   });
 }

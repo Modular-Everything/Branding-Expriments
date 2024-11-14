@@ -13,26 +13,13 @@ body {
 
   .row {
     @apply flex flex-1 flex-col;
-  }
 
-  .sub-grid {
-    @apply flex flex-1;
+    .sub-grid {
+      @apply flex;
 
-    &:nth-child(odd) {
-      .cell:nth-child(odd) {
-        @apply bg-transparent;
+      .cell {
+        @apply flex flex-1;
       }
     }
-
-    &:nth-child(even) {
-      .cell:nth-child(even) {
-        @apply bg-transparent;
-      }
-    }
-  }
-
-  .cell {
-    @apply flex flex-1;
-    background-color: #20d269;
   }
 }
