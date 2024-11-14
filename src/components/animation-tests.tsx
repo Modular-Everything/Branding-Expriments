@@ -1,18 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
 import gsap from "gsap";
 
 import { animateSkew } from "@/animations/animateSkew";
 import { generateGrid } from "@/utils/generateGrid";
 import { randomCellColour } from "@/utils/randomCellColour";
 
+type Cell = HTMLElement;
+
 export function Animation() {
   const [iterate, setIterate] = useState(new Date());
 
-  const mainGrid = useRef(null);
-  const tl = useRef();
-  const cells = useRef();
+  const mainGrid = useRef<HTMLDivElement>({
+    current: null,
+  } as unknown as HTMLDivElement);
+  const tl = useRef<gsap.core.Timeline | null>(null);
+  const cells = useRef<NodeListOf<Element> | null>(null);
 
   useEffect(() => {
     const rowSplit = gsap.utils.random(20, 80, 10);
@@ -30,10 +35,10 @@ export function Animation() {
 
     // Get all cells
     cells.current = document.querySelectorAll(".cell");
-    randomCellColour(cells.current);
+    randomCellColour(Array.from(cells.current) as Cell[]);
 
     // Animate the grid via a skew
-    animateSkew(cells.current);
+    animateSkew(Array.from(cells.current) as Cell[]);
   }, [iterate]);
 
   useEffect(() => {
@@ -41,7 +46,7 @@ export function Animation() {
 
     // Regenerate Grid
     const reloadButton = document.querySelector("#reload");
-    reloadButton.addEventListener("click", () => {
+    reloadButton?.addEventListener("click", () => {
       const date = new Date();
       setIterate(date);
     });
