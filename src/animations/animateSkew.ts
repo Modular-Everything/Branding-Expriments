@@ -37,7 +37,6 @@ export function animateSkew(cells: Cell[]): void {
         ease: "expo.out",
         repeat: 0,
         yoyo: true,
-        delay: 0.5,
       });
     }
   });
