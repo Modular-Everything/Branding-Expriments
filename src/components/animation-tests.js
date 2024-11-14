@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { createNoise2D } from "simplex-noise";
 import Alea from "alea";
@@ -8,15 +8,19 @@ import { calculateEffectiveWidth } from "@/helpers/calculateEffectiveWidth";
 import { calculateMaxSkew } from "@/helpers/calculateMaxSkew";
 
 export function Animation() {
+  const [iterate, setIterate] = useState(new Date());
+
   const mainGrid = useRef(null);
 
   useEffect(() => {
-    let rowSplit = gsap.utils.random(10, 80, 10); // Default split percentage for row 1
-    let numColsRow1 = gsap.utils.random(10, 30, 1); // Random number of columns for row 1
-    let numColsRow2 = gsap.utils.random(10, 30, 1); // Random number of columns for row 2
+    const rowSplit = gsap.utils.random(10, 80, 10); // Default split percentage for row 1
+    const numColsRow1 = gsap.utils.random(16, 24, 1); // Random number of columns for row 1
+    const numColsRow2 = gsap.utils.random(16, 24, 1); // Random number of columns for row 2
+    const gap = gsap.utils.random(0, 24, 4); // Random gap between rows
 
     function generateGrid() {
       mainGrid.current.innerHTML = ""; // Clear previous grid
+      mainGrid.current.style.gap = `${gap}px`;
 
       // Create Row 1
       const row1 = document.createElement("div");
@@ -87,7 +91,7 @@ export function Animation() {
             skewX,
             width: `${newWidth}px`,
             duration: 1,
-            ease: "power2.inOut",
+            ease: "expo.out",
             repeat: 0,
             yoyo: true,
             delay: 0.5,
@@ -98,7 +102,16 @@ export function Animation() {
 
     const cells = document.querySelectorAll(".cell");
     animateSkew(cells);
-  }, [mainGrid]);
+  }, [iterate]);
+
+  useEffect(() => {
+    // Regenerate Grid
+    const reloadButton = document.querySelector("#reload");
+    reloadButton.addEventListener("click", () => {
+      const date = new Date();
+      setIterate(date);
+    });
+  }, []);
 
   return <div ref={mainGrid} className="main-grid"></div>;
 }
