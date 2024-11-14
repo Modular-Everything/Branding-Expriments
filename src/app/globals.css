@@ -2,20 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-neutral-900 overflow-clip;
+}
+
+@layer components {
+  .main-grid {
+    @apply flex flex-col w-[80vw] h-[60vh];
+  }
+
+  .row {
+    @apply flex flex-1;
+
+    &:nth-child(odd) {
+      .cell:nth-child(odd) {
+        @apply bg-transparent;
+      }
+    }
+
+    &:nth-child(even) {
+      .cell:nth-child(even) {
+        @apply bg-transparent;
+      }
+    }
+  }
+
+  .cell {
+    @apply flex flex-1 bg-cyan-400;
+  }
 }
