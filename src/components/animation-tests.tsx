@@ -21,6 +21,8 @@ export function Animation() {
   const cells = useRef<NodeListOf<Element> | null>(null);
 
   useEffect(() => {
+    const animation = gsap.utils.random(1, 3, 1);
+
     const rowSplit = gsap.utils.random(20, 80, 10);
     const options = {
       rowSplit, // Default split percentage for row 1
@@ -47,8 +49,13 @@ export function Animation() {
     randomCellColour(cellsGrid);
 
     // Animate the grid via a skew
-    // animateSkew(Array.from(cells.current) as Cell[]);
+    if (animation === 1) animateSkew(Array.from(cells.current) as Cell[]);
   }, [iterate]);
+
+  function updateIteration() {
+    const date = new Date();
+    setIterate(date);
+  }
 
   useEffect(() => {
     tl.current = gsap.timeline();
@@ -56,8 +63,12 @@ export function Animation() {
     // Regenerate Grid
     const reloadButton = document.querySelector("#reload");
     reloadButton?.addEventListener("click", () => {
-      const date = new Date();
-      setIterate(date);
+      updateIteration();
+    });
+
+    // Regenerate Grid on resize
+    window.addEventListener("resize", () => {
+      updateIteration();
     });
   }, []);
 
