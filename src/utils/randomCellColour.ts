@@ -4,7 +4,7 @@ type Cell = HTMLElement;
 
 export function randomCellColour(grid: Cell[][][]): void {
   const colours = {
-    light: "#20D269",
+    light: "#9FF1FF",
     dark: "transparent",
   };
 
