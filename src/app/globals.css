@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-black overflow-clip;
+  @apply bg-[#2B2B2B] overflow-clip;
 }
 
 @layer components {
