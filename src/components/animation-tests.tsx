@@ -70,6 +70,12 @@ export function Animation() {
     window.addEventListener("resize", () => {
       updateIteration();
     });
+
+    // const interval = setInterval(() => {
+    //   updateIteration();
+    // }, 1000);
+
+    // return () => clearInterval(interval);
   }, []);
 
   return <div ref={mainGrid} className="main-grid"></div>;
